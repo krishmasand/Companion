@@ -1,0 +1,99 @@
+<android.support.wearable.view.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="15dp"
+    android:background="#ff7b86ff"
+    android:baselineAligned="false"
+    android:paddingLeft="10dp"
+    android:paddingTop="7dp">
+
+    <FrameLayout
+        android:layout_width="140dp"
+        android:layout_height="147dp"
+        android:padding="5dp"
+        app:layout_box="all"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp">
+
+    <!--<TextView android:id="@+id/text" android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" android:text="@string/hello_square" />-->
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="New Button"-->
+        <!--android:id="@+id/button"-->
+        <!--android:onClick="zzz"/>-->
+
+    <!--<Button-->
+        <!--style="?android:attr/buttonStyleSmall"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="New Button"-->
+        <!--android:id="@+id/button2"-->
+        <!--android:onClick="kresh"-->
+        <!--android:layout_gravity="center_horizontal" />-->
+
+        <TextView
+            android:id="@+id/btn_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:minWidth="60dp"
+            android:minHeight="60dp"
+            android:layout_gravity="left|bottom"
+            android:gravity="center"
+            android:background="@drawable/states_circle_blue"
+            android:clickable="true"
+            android:onClick="heartrateStart"
+            android:text="HELP!"/>
+
+        <TextView
+            android:id="@+id/btn_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:minWidth="60dp"
+            android:minHeight="60dp"
+            android:layout_gravity="left|top"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@drawable/states_circle_red"
+            android:onClick="honk"
+            android:text="Honk"/>
+
+        <TextView
+            android:id="@+id/btn_indigo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:minWidth="60dp"
+            android:minHeight="60dp"
+            android:layout_gravity="right|top"
+            android:gravity="center"
+            android:background="@drawable/states_circle_indigo"
+            android:clickable="true"
+            android:onClick="lockButtonHandler"
+            android:text="Lock"/>
+
+        <TextView
+            android:id="@+id/btn_orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:minWidth="60dp"
+            android:minHeight="60dp"
+            android:layout_gravity="right|bottom"
+            android:gravity="center"
+            android:background="@drawable/states_circle_orange"
+            android:clickable="true"
+            android:onClick="navigateToCar"
+            android:text="Find"/>
+    </FrameLayout>
+
+</android.support.wearable.view.BoxInsetLayout>
+

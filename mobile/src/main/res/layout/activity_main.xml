@@ -1,0 +1,218 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="@color/material_blue_grey_950"
+    android:id="@+id/id">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/topFrame"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="200dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="160dp"
+        android:minWidth="100dp"
+        android:minHeight="100dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:id="@+id/button3"
+            android:onClick="statusHandler"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/button2"
+            android:layout_gravity="right|top" />
+
+        <TextView
+            android:id="@+id/btn_orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:minWidth="75dp"
+            android:minHeight="75dp"
+            android:layout_gravity="left|top"
+            android:gravity="center"
+            android:background="@drawable/states_circle_orange"
+            android:clickable="true"
+            android:onClick="navigateToCar"
+            android:text="Find Car"/>
+
+    </FrameLayout>
+
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="230dp" />
+
+    <!--<TextView android:text="@string/hello_world" android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/textView" />-->
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Notify Me"-->
+        <!--android:id="@+id/button"-->
+        <!--android:onClick="hello"-->
+        <!--android:layout_below="@+id/textView"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginTop="187dp" />-->
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Find Car"-->
+        <!--android:id="@+id/button2"-->
+        <!--android:onClick="navigateToCar"-->
+        <!--android:layout_below="@+id/button"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginTop="50dp" />-->
+
+
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Lock"-->
+        <!--android:id="@+id/lockButton"-->
+        <!--android:onClick="lockButtonHandler"-->
+        <!--android:layout_alignTop="@+id/button"-->
+        <!--android:layout_alignParentEnd="true" />-->
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Heart"-->
+        <!--android:id="@+id/Heartrate"-->
+        <!--android:onClick="heartrateStart"-->
+        <!--android:layout_alignBottom="@+id/button2"-->
+        <!--android:layout_alignParentEnd="true" />-->
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Horn"-->
+        <!--android:id="@+id/Horn"-->
+        <!--android:onClick="hornButtonHandler"-->
+        <!--android:layout_marginTop="66dp"-->
+        <!--android:layout_below="@+id/button2"-->
+        <!--android:layout_alignEnd="@+id/button" />-->
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Headlight"-->
+        <!--android:id="@+id/Headlight"-->
+        <!--android:onClick="headlightButtonHandler"-->
+        <!--android:layout_alignTop="@+id/Horn"-->
+        <!--android:layout_alignEnd="@+id/Heartrate" />-->
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frame"
+        android:layout_marginTop="250dp">
+
+
+        <TextView
+            android:id="@+id/btn_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:minWidth="75dp"
+            android:minHeight="75dp"
+            android:layout_gravity="left|center_vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@drawable/states_circle_red"
+            android:onClick="friends"
+            android:text="Friends"/>
+
+        <TextView
+            android:id="@+id/btn_indigo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:minWidth="75dp"
+            android:minHeight="75dp"
+            android:layout_gravity="right|center_vertical"
+            android:gravity="center"
+            android:background="@drawable/states_circle_indigo"
+            android:clickable="true"
+            android:onClick="lockButtonHandler"
+            android:text="Lock"/>
+
+        <TextView
+            android:id="@+id/btn_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:minWidth="75dp"
+            android:minHeight="75dp"
+            android:layout_gravity="left|bottom"
+            android:gravity="center"
+            android:background="@drawable/states_circle_blue"
+            android:clickable="true"
+            android:onClick="heartrateStart"
+            android:text="Heart"/>
+
+        <TextView
+            android:id="@+id/btn_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:minWidth="75dp"
+            android:minHeight="75dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:gravity="center"
+            android:background="@drawable/states_circle_green"
+            android:clickable="true"
+            android:onClick="hornButtonHandler"
+            android:text="Horn"/>
+
+        <TextView
+            android:id="@+id/btn_yellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:minWidth="75dp"
+            android:minHeight="75dp"
+            android:layout_gravity="right|bottom"
+            android:gravity="center"
+            android:background="@drawable/states_circle_yellow"
+            android:clickable="true"
+            android:onClick="headlightButtonHandler"
+            android:text="Headlight"/>
+
+        <TextView
+            android:id="@+id/btn_charge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:minWidth="75dp"
+            android:minHeight="75dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@drawable/states_circle_indigo"
+            android:onClick="chargeHandler"
+            android:text="Charge"/>
+
+    </FrameLayout>
+
+
+</RelativeLayout>
