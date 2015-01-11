@@ -360,52 +360,8 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     public void chargeHandler(View view) throws IOException{
-        int[] loc = CarControl.fetchLocation();
-        InputStream a = getPublicStations.getData(loc[0],loc[1]);
-//        Log.d("charger",a);
-        try {
-
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(a);
-
-            //optional, but recommended
-            //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-            doc.getDocumentElement().normalize();
-
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-
-            NodeList nList = doc.getElementsByTagName("stationData");
-
-            System.out.println("----------------------------");
-            String[] addressStrings = new String[nList.getLength()];
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-
-                org.w3c.dom.Node nNode = nList.item(temp);
-
-                System.out.println("\nCurrent Element :" + nNode.getNodeName());
-
-                if (nNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-//                    Log.d("parserwholethang",eElement.toString());
-//                    Log.d("parserid",eElement.getAttribute("stationId"));
-//                    Log.d("parseraddress",eElement.getElementsByTagName("Address").item(0).getTextContent());
-                    Log.d("address1",eElement.getElementsByTagName("Address").item(0).getTextContent());
-                    addressStrings[temp] += eElement.getElementsByTagName("Address").item(0).getTextContent();
-
-
-//                    System.out.println(eElement.getElementsByTagName("lastname").item(0).getTextContent());
-//                    System.out.println(eElement.getElementsByTagName("nickname").item(0).getTextContent());
-//                    System.out.println(eElement.getElementsByTagName("salary").item(0).getTextContent());
-
-                }
-                Log.d("length", String.valueOf(addressStrings.length));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
+            Intent intent = new Intent(this, PowerStations.class);
+            this.startActivity(intent);
     }
 
 

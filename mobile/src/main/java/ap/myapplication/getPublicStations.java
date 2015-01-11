@@ -12,7 +12,7 @@ public class getPublicStations
 //        System.out.println(output);
     }
 
-    public static InputStream getData(int lat, int lon) throws MalformedURLException, IOException {
+    public static InputStream getData(float lat, float lon) throws MalformedURLException, IOException {
 
         //Code to make a webservice HTTP request
         String responseString = "";

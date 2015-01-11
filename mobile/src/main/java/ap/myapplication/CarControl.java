@@ -131,7 +131,7 @@ public class CarControl extends Activity{
             return false;
         }
     }
-    public static int[] fetchLocation() {
+    public static float[] fetchLocation() {
         Log.d("debug","location being checked");
         HttpClient client = new DefaultHttpClient();
 
@@ -141,8 +141,8 @@ public class CarControl extends Activity{
             InputStream a = response.getEntity().getContent();
             String l = convertInputStreamToString(a);
             JSONObject object = (JSONObject) new JSONTokener(l).nextValue();
-            Log.d("door checked", object.toString());
-            int[] z = {Integer.parseInt(object.getString("lat")),Integer.parseInt(object.getString("lon"))};
+            Log.d("locationFetched", object.toString());
+            float[] z = {Float.parseFloat(object.getString("lat")),Float.parseFloat(object.getString("lon"))};
             return z;
         } catch (Exception e) {
             e.printStackTrace();

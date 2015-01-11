@@ -18,9 +18,8 @@
         <item>WBY1Z4C58EV275200</item>
     </string-array>
 
-
     <string name="title_activity_friends">Friends</string>
-=======
-    <string name="title_activity_friend">FriendActivity</string>
+=======    <string name="title_activity_friend">FriendActivity</string>
+    <string name="title_activity_power_stations">PowerStations</string>
 
 </resources>
