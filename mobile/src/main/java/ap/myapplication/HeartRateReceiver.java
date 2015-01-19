@@ -39,8 +39,8 @@ public class HeartRateReceiver extends BroadcastReceiver{
 
         int heartRate = intent.getIntExtra("com.example.android.HeartRate.STATUS", -1);
         Log.d("Receiver", "Fake Rate Received and is " + heartRate);
-        if (heartRate != -1){
-            if(heartRate > 800){
+        if ((heartRate > 9 && heartRate < 31) || heartRate > 116){
+
                 String number = "5103649907";
                 Log.d("carlocation","location being checked");
                 String texter = generateEmergencyText();
@@ -59,7 +59,7 @@ public class HeartRateReceiver extends BroadcastReceiver{
                 Log.d("calling", "called");
 
 
-            }
+
         }
 
         //start activity

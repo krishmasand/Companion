@@ -23,16 +23,16 @@
         android:minWidth="100dp"
         android:minHeight="100dp" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Status"
-            android:id="@+id/button3"
-            android:onClick="statusHandler"
-            android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/button2"
-            android:layout_gravity="right|top" />
+        <!--<Button-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Status"-->
+            <!--android:id="@+id/button3"-->
+            <!--android:onClick="statusHandler"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_toEndOf="@+id/button2"-->
+            <!--android:layout_gravity="right|top" />-->
 
         <TextView
             android:id="@+id/btn_orange"
@@ -51,12 +51,12 @@
     </FrameLayout>
 
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="230dp" />
+    <!--<Spinner-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/spinner"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="230dp" />-->
 
     <!--<TextView android:text="@string/hello_world" android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
@@ -167,8 +167,8 @@
             android:gravity="center"
             android:background="@drawable/states_circle_blue"
             android:clickable="true"
-            android:onClick="heartrateStart"
-            android:text="Heart"/>
+            android:onClick="help"
+            android:text="HELP!"/>
 
         <TextView
             android:id="@+id/btn_green"
@@ -208,7 +208,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:clickable="true"
-            android:background="@drawable/states_circle_indigo"
+            android:background="@drawable/states_circle_orange"
             android:onClick="chargeHandler"
             android:text="Charge"/>
 

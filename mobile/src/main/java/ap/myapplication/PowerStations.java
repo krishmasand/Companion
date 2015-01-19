@@ -91,7 +91,7 @@ public class PowerStations extends ActionBarActivity {
 
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
-            NodeList nList = doc.getElementsByTagName("stationData");
+            NodeList nList = doc.getElementsByTagName("stationData")    ;
             PowerStationObj[] powerList = new PowerStationObj[nList.getLength()];
             System.out.println("----------------------------");
             String addressStrings = new String();

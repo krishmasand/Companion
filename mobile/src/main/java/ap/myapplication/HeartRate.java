@@ -19,7 +19,7 @@ public class HeartRate extends IntentService {
 
     SensorManager mSensorManager;
     Sensor mHeartRateSensor;
-    int realRate;
+    int realRate = -2;
     Handler handler=new Handler();
     int count =0;
     int fakeRate = 5;
@@ -76,22 +76,22 @@ public class HeartRate extends IntentService {
     Runnable updateTextRunnable=new Runnable(){
         public void run() {
 
-            mSensorManager = ((SensorManager)getSystemService(SENSOR_SERVICE));
-            mHeartRateSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-            realRate = mHeartRateSensor.TYPE_HEART_RATE;
-            //Log.d("realRate is ", "" + realRate);
 
-            count++;
-            if(fakeRate<=800) {
-                fakeRate = (int) (900 * Math.random());
-                //Log.d("fakeRate2", "" + fakeRate);
-
-                broadcast(fakeRate);
-
-                //MainActivity.heartRate = fakeRate;
-                //launchMain(fakeRate);
-                handler.postDelayed(this, 500);
-            }
+//            //Log.d("realRate is ", "" + realRate);
+//
+//            count++;
+//            if(fakeRate<=800) {
+//                fakeRate = (int) (900 * Math.random());
+//                //Log.d("fakeRate2", "" + fakeRate);
+//
+//                broadcast(fakeRate);
+//
+//                //MainActivity.heartRate = fakeRate;
+//                //launchMain(fakeRate);
+//                handler.postDelayed(this, 500);
+//            }
+            realRate = MainActivity.heartRate;
+            broadcast(realRate);
         }
     };
 }

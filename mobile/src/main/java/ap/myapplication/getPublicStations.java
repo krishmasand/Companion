@@ -12,7 +12,7 @@ public class getPublicStations
 //        System.out.println(output);
     }
 
-    public static InputStream getData(float lat, float lon) throws MalformedURLException, IOException {
+    public static InputStream getData(int lat, int lon) throws MalformedURLException, IOException {
 
         //Code to make a webservice HTTP request
         String responseString = "";
@@ -39,7 +39,7 @@ public class getPublicStations
                         "   <soap:Body>\n" +
                         "		<ns2:getPublicStations xmlns:ns2='http://www.example.org/coulombservices/'>\n" +
                         "			<searchQuery>\n" +
-                        "				<Proximity>10</Proximity>\n" +
+                        "				<Proximity>2</Proximity>\n" +
                         "				<proximityUnit>M</proximityUnit>\n" +
                         "				<Geo>\n" +
                         "					<Lat>" + lat + "</Lat>\n" +

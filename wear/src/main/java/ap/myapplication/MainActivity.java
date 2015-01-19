@@ -1,7 +1,12 @@
 package ap.myapplication;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
@@ -28,13 +33,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener {
 
     private TextView mTextView;
     public GoogleApiClient mGoogleApiClient;
     public static final String START_ACTIVITY_PATH = "/start/MainActivity";
     String nodeId;
     Node mPhoneNode;
+    private SensorManager mSensorManager;
+    private Sensor mHeartRate;
 
 
     @Override
@@ -53,11 +60,38 @@ public class MainActivity extends Activity {
                 .build();
         mGoogleApiClient.connect();
 
-//        Intent mServiceIntent = new Intent(this, HeartRateService.class);
-//        mServiceIntent.setData(Uri.parse("uri1"));
-//        // Starts the IntentService
-//        this.startService(mServiceIntent);
+        Intent mServiceIntent = new Intent(this, HeartRateService.class);
+        mServiceIntent.setData(Uri.parse("uri1"));
+        // Starts the IntentService
+        this.startService(mServiceIntent);
 
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mHeartRate = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
+
+    }
+    @Override
+    public final void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Do something here if sensor accuracy changes.
+    }
+    @Override
+    public final void onSensorChanged(SensorEvent event) {
+        // The light sensor returns a single value.
+        // Many sensors return 3 values, one for each axis.
+        float rate = event.values[0];
+        Log.d("real rate from main activity is", "" + rate);
+        //sendToPhone("heartRate", (byte) event.values[0]);
+        // Do something with this sensor value.
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this, mHeartRate, SensorManager.SENSOR_DELAY_NORMAL);
+
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
     }
 //    private Collection<String> getNodes() {
 //        final HashSet <String>results = new HashSet<String>();
@@ -98,6 +132,11 @@ public class MainActivity extends Activity {
         sendToPhone("lockButtonHandler");
         Toast.makeText(getApplicationContext(), "Doors Locked", Toast.LENGTH_LONG).show();
     }
+
+    private void sendToPhone(String method, byte data){
+        findPhoneNode(method, data);
+    }
+
     private void sendToPhone(String method){
         findPhoneNode(method);
     }
@@ -134,7 +173,22 @@ public class MainActivity extends Activity {
         });
     }
 
-
+    void findPhoneNode(final String str1, byte data) {
+        final byte dataArray[]  = {data};
+        PendingResult<NodeApi.GetConnectedNodesResult> pending = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient);
+        pending.setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+            @Override
+            public void onResult(NodeApi.GetConnectedNodesResult result) {
+                if(result.getNodes().size()>0) {
+                    mPhoneNode = result.getNodes().get(0);
+                    Log.d("yoooo", "Found phone: name=" + mPhoneNode.getDisplayName() + ", id=" + mPhoneNode.getId());
+                    sendToPhone(str1, dataArray, null);
+                } else {
+                    mPhoneNode = null;
+                }
+            }
+        });
+    }
 
 
     private void sendToPhone(String path, byte[] data, final ResultCallback<MessageApi.SendMessageResult> callback) {

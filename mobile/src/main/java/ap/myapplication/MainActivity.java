@@ -18,6 +18,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -35,6 +36,7 @@ import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -112,16 +114,16 @@ public class MainActivity extends ActionBarActivity implements
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.VINs, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-        //Register Listener
-        spinner.setOnItemSelectedListener(this);
+//        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+//// Create an ArrayAdapter using the string array and a default spinner layout
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                R.array.VINs, android.R.layout.simple_spinner_item);
+//// Specify the layout to use when the list of choices appears
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//// Apply the adapter to the spinner
+//        spinner.setAdapter(adapter);
+//        //Register Listener
+//        spinner.setOnItemSelectedListener(this);
 
 
 
@@ -360,10 +362,99 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     public void chargeHandler(View view) throws IOException{
-            Intent intent = new Intent(this, PowerStations.class);
-            this.startActivity(intent);
+        int[] loc = CarControl.fetchLocation();
+        InputStream a = getPublicStations.getData( (int) loc[0], (int) loc[1]);
+//        Log.d("charger",a);
+        try {
+
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(a);
+
+            //optional, but recommended
+            //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
+            doc.getDocumentElement().normalize();
+
+            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+
+            NodeList nList = doc.getElementsByTagName("stationData");
+
+            System.out.println("----------------------------");
+            String[] addressStrings = new String[nList.getLength()];
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+
+                org.w3c.dom.Node nNode = nList.item(temp);
+
+                System.out.println("\nCurrent Element :" + nNode.getNodeName());
+
+                if (nNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+//                    Log.d("parserwholethang",eElement.toString());
+//                    Log.d("parserid",eElement.getAttribute("stationId"));
+//                    Log.d("parseraddress",eElement.getElementsByTagName("Address").item(0).getTextContent());
+                    Log.d("address1",eElement.getElementsByTagName("Address").item(0).getTextContent());
+                    addressStrings[temp] += eElement.getElementsByTagName("Address").item(0).getTextContent();
+
+
+//                    System.out.println(eElement.getElementsByTagName("lastname").item(0).getTextContent());
+//                    System.out.println(eElement.getElementsByTagName("nickname").item(0).getTextContent());
+//                    System.out.println(eElement.getElementsByTagName("salary").item(0).getTextContent());
+
+                }
+                Log.d("length", String.valueOf(addressStrings.length));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+    public void help(View view){
+        String number = "5103649907";
+        Log.d("carlocation","location being checked");
+        String texter = generateEmergencyText();
+        Log.d("tag",texter);
+
+        SmsManager sm = SmsManager.getDefault();
+        ArrayList<String> textString = sm.divideMessage(texter);
+        sm.sendMultipartTextMessage(number,null,textString,null,null);
+        Toast.makeText(this, "Emergency Contact being texted", Toast.LENGTH_LONG).show();
+
+        String uri = "tel:" + number.trim() ;
+        Intent CallIntent = new Intent(Intent.ACTION_CALL);
+        CallIntent.setData(Uri.parse(uri));
+        CallIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(CallIntent);
+        Log.d("calling", "called");
     }
 
+    public String generateEmergencyText() {
+
+        HttpClient client = new DefaultHttpClient();
+
+        try {
+            List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+            HttpResponse response = client.execute(new HttpGet("http://api.hackthedrive.com/vehicles/" + MainActivity.VIN + "/location/"));
+            InputStream a = response.getEntity().getContent();
+            String l = CarControl.convertInputStreamToString(a);
+            JSONObject object = (JSONObject) new JSONTokener(l).nextValue();
+            String emergency = "ALERT: Your friend just hit the 'Help!' button in his Companion app. He may be in trouble.  The " +
+                    "police have been notified.  Your friend's last known location is at: http://maps.google.com/maps?daddr=" +
+                    object.getString("lat") + "," + object.getString("lat");
+            HttpResponse carInfo = client.execute(new HttpGet("http://api.hackthedrive.com/vehicles/" + MainActivity.VIN + "/"));
+            a = carInfo.getEntity().getContent();
+            l = CarControl.convertInputStreamToString(a);
+            object = (JSONObject) new JSONTokener(l).nextValue();
+            emergency += " Your friend is driving a " + object.getString("year") + " " + object.get("color") + " " + object.getString("make") + " " + object.getString("model");
+            emergency += ": VIN number " + object.get("vin") + ".  " + object.getString("country") + " make.";
+            return emergency;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("location failed", e.toString());
+            return "";
+        }
+
+    }
 
 
     public void startListening() {
@@ -389,7 +480,7 @@ public class MainActivity extends ActionBarActivity implements
                     String deviceName = device.getName();
                     Toast.makeText(context, deviceName + " Device has disconnected", Toast.LENGTH_LONG).show();
                     if(deviceName.contains("BMW")) {
-                        Toast.makeText(context, deviceName + " OMG I FOUND IT", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, deviceName, Toast.LENGTH_LONG).show();
                         Log.d("hi","hey");
                         checkStatus();
                     }
@@ -449,6 +540,56 @@ public class MainActivity extends ActionBarActivity implements
             Log.d("location fetch fail", e.toString());
         }
     }
+
+    public void help(View view){
+        String number = "5103649907";
+        Log.d("carlocation","location being checked");
+        String texter = generateEmergencyText();
+        Log.d("tag",texter);
+
+        SmsManager sm = SmsManager.getDefault();
+        ArrayList<String> textString = sm.divideMessage(texter);
+        sm.sendMultipartTextMessage(number,null,textString,null,null);
+        Toast.makeText(this, "Emergency Contact being texted", Toast.LENGTH_LONG).show();
+
+        String uri = "tel:" + number.trim() ;
+        Intent CallIntent = new Intent(Intent.ACTION_CALL);
+        CallIntent.setData(Uri.parse(uri));
+        CallIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(CallIntent);
+        Log.d("calling", "called");
+    }
+
+
+    public String generateEmergencyText() {
+
+        HttpClient client = new DefaultHttpClient();
+
+        try {
+            List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+            HttpResponse response = client.execute(new HttpGet("http://api.hackthedrive.com/vehicles/" + MainActivity.VIN + "/location/"));
+            InputStream a = response.getEntity().getContent();
+            String l = CarControl.convertInputStreamToString(a);
+            JSONObject object = (JSONObject) new JSONTokener(l).nextValue();
+            String emergency = "ALERT: Your friend just hit the 'Help!' button in his Companion app. He may be in trouble.  The " +
+                    "police have been notified.  Your friend's last known location is at: http://maps.google.com/maps?daddr=" +
+                    object.getString("lat") + "," + object.getString("lat");
+            HttpResponse carInfo = client.execute(new HttpGet("http://api.hackthedrive.com/vehicles/" + MainActivity.VIN + "/"));
+            a = carInfo.getEntity().getContent();
+            l = CarControl.convertInputStreamToString(a);
+            object = (JSONObject) new JSONTokener(l).nextValue();
+            emergency += " Your friend is driving a " + object.getString("year") + " " + object.get("color") + " " + object.getString("make") + " " + object.getString("model");
+            emergency += ": VIN number " + object.get("vin") + ".  " + object.getString("country") + " make.";
+            return emergency;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("location failed", e.toString());
+            return "";
+        }
+
+    }
+
+
     public static void navigateToCarWorker(Context context, String VIN) {
         float lat;
         float lon;
