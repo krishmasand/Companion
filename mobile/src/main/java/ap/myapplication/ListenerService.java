@@ -99,8 +99,13 @@ public class ListenerService extends WearableListenerService{
             intent.setData(Uri.parse(uri));
             startActivity(intent);
         }
+        if (messageEvent.getPath().equals("heartrate")) {
+//            MainActivity.heartrateStart(this);
+//            help();
+            MainActivity.heartRate = (int) messageEvent.getData()[0];
+        }
         if (messageEvent.getPath().equals("help")) {
-            //MainActivity.heartrateStart(this);
+            MainActivity.heartrateStart(this);
             help();
         }
 
